@@ -15,4 +15,10 @@ export declare class NgxStrHelper {
     escapeHTML(str: string): string;
     insert(str: string, i: number, substr: string): string;
     splice(str: string, i: number, howmany: number, substr: string): string;
+    replaceAll(str: string, find: string, replace: string, ignorecase: boolean): string;
+    isBlank(str: string): boolean;
+    reverse(str: string): string;
+    startsWith(str: string, starts: string, position: number): boolean;
+    endsWith(str: string, ends: string, position: number): boolean;
+    toPositive(num: number): number;
 }

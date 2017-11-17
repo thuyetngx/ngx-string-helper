@@ -1,6 +1,6 @@
 ## Angular 2+ String Helper
 
-Just a simple lightweight Angular 2+ string helper
+Ngx lacks complete string manipulation operations. This is an attempt to fill that gap.
 
 ## Installation
 
@@ -143,5 +143,27 @@ Converts entity characters to HTML equivalents. This function supports cent, yen
 ```javascript
         ngxStrHelper.replaceAll("foo", "o", "a");
         // => Outputs: "faa"
+```
+#### NgxStrHelper.reverse();
+Return reversed string
+```javascript
+        ngxStrHelper.reverse("foobar");
+        // => Outputs: "raboof"
+```
+#### NgxStrHelper.startsWith();
+This method checks whether the string begins with starts at position (default: 0)
+```javascript
+        ngxStrHelper.startsWith("image.gif", "image");
+        // => Outputs: true
+        ngxStrHelper.startsWith(".vimrc", "vim", 1);
+        // => Outputs: true
+```
+#### NgxStrHelper.endsWith();
+This method checks whether the string ends with ends at position (default: string.length).
+```javascript
+        ngxStrHelper.endsWith("image.gif", "gif");
+        // => Outputs: true
+        ngxStrHelper.("image.old.gif", "old", 9);
+        // => Outputs: true
 ```
 #### Thanks and enjoy!

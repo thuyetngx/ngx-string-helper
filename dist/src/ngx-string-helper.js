@@ -77,7 +77,35 @@ var NgxStrHelper = (function () {
         arr.splice(~~i, ~~howmany, substr);
         return arr.join('');
     };
-    ;
+    NgxStrHelper.prototype.replaceAll = function (str, find, replace, ignorecase) {
+        var flags = (ignorecase === true) ? 'gi' : 'g';
+        var reg = new RegExp(find, flags);
+        return str.replace(reg, replace);
+    };
+    NgxStrHelper.prototype.isBlank = function (str) {
+        return (/^\s*$/).test(str);
+    };
+    NgxStrHelper.prototype.reverse = function (str) {
+        return this.chars(str).reverse().join('');
+    };
+    NgxStrHelper.prototype.startsWith = function (str, starts, position) {
+        starts = '' + starts;
+        position = position == null ? 0 : Math.min(this.toPositive(position), str.length);
+        return str.lastIndexOf(starts, position) === position;
+    };
+    NgxStrHelper.prototype.endsWith = function (str, ends, position) {
+        ends = '' + ends;
+        if (typeof position == 'undefined') {
+            position = str.length - ends.length;
+        }
+        else {
+            position = Math.min(this.toPositive(position), str.length) - ends.length;
+        }
+        return position >= 0 && str.indexOf(ends, position) === position;
+    };
+    NgxStrHelper.prototype.toPositive = function (num) {
+        return num < 0 ? 0 : (+num || 0);
+    };
     return NgxStrHelper;
 }());
 export { NgxStrHelper };
