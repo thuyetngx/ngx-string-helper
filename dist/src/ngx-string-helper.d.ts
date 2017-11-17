@@ -20,5 +20,24 @@ export declare class NgxStrHelper {
     reverse(str: string): string;
     startsWith(str: string, starts: string, position: number): boolean;
     endsWith(str: string, ends: string, position: number): boolean;
+    pred(str: string): string;
+    succ(str: string): string;
+    titleize(str: string): string;
+    camelize(str: string, decapitalize: boolean): string;
+    classify(str: string): string;
+    underscored(str: string): string;
+    dasherize(str: string): string;
+    humanize(str: string): string;
     toPositive(num: number): number;
+    adjacent(str: string, direction: number): string;
+    toNumber(num: any, precision: number): number;
+    stripTags(str: string): string;
+    repeat(str: string, qty: number, separator: string): string;
+    strRepeat(str: string, qty: number): string;
+    surround(str: string, wrapper: string): string;
+    quote(str: string, quoteChar: string): string;
+    unquote(str: string, quoteChar: string): string;
+    boolMatch(s: string, matchers: any): true | undefined;
+    toBoolean(str: string, trueValues?: never[], falseValues?: never[]): boolean | undefined;
+    chop(str: string, step: number): never[] | RegExpMatchArray | null;
 }

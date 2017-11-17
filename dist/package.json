@@ -1,7 +1,7 @@
 {
     "name": "ngx-string-helper",
-    "version": "2.0.9",
-    "description": "Just a simple lightweight Angular 2+ string helper",
+    "version": "2.0.14",
+    "description": "Ngx lacks complete string manipulation operations. This is an attempt to fill that gap.",
     "main": "index.js",
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1",
@@ -18,8 +18,10 @@
         "angular2 string helper",
         "ng2 string helper",
         "ngx string helper",
-        "string helper",
-        "string utils"
+        "angular string helper",
+        "angular string utils",
+        "angular",
+        "npm"
     ],
     "author": "Thuyet's",
     "license": "MIT",
