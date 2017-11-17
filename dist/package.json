@@ -1,0 +1,44 @@
+{
+    "name": "ngx-string-helper",
+    "version": "2.0.9",
+    "description": "Just a simple lightweight Angular 2+ string helper",
+    "main": "index.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "cleanup": "rimraf dist/bundles dist/src dist/index.d.ts dist/index.js dist/index.js.map dist/LICENCE dist/README.md",
+        "bundling": "rollup -c",
+        "minify": "uglifyjs dist/bundles/ngx-string-helper.umd.js --screw-ie8 --compress --mangle --comments --output dist/bundles/ngx-string-helper.umd.min.js",
+        "build": "npm run cleanup && ngc && npm run bundling && npm run minify"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/thuyetngx/ngx-string-helper.git"
+    },
+    "keywords": [
+        "angular2 string helper",
+        "ng2 string helper",
+        "ngx string helper",
+        "string helper",
+        "string utils"
+    ],
+    "author": "Thuyet's",
+    "license": "MIT",
+    "dependencies": {
+        "@angular/core": "^4.0.0",
+        "reflect-metadata": "^0.1.8",
+        "rxjs": "^5.4.1",
+        "zone.js": "^0.8.14"
+    },
+    "devDependencies": {
+        "@angular/compiler": "^4.0.0",
+        "@angular/compiler-cli": "^4.0.0",
+        "rimraf": "^2.6.2",
+        "rollup": "^0.37.0",
+        "typescript": "~2.3.3",
+        "uglify-js": "^2.7.5"
+    },
+    "bugs": {
+        "url": "https://github.com/thuyetngx/ngx-string-helper/issues"
+    },
+    "homepage": "https://github.com/thuyetngx/ngx-string-helper#readme"
+}
