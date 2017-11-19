@@ -18,9 +18,20 @@ var NgxStrHelper = (function () {
     NgxStrHelper.prototype.isNullOrEmpty = function (input) {
         return (input === undefined || input === null || input === "");
     };
+    /**
+     * @param str: string, len: number
+     * Input: "Input is a string test";
+     * Output: "Input is a..."
+     */
     NgxStrHelper.prototype.truncate = function (str, len) {
         return str.substring(0, len) + '...';
     };
+    /**
+     * Searches for a given substring
+     * @param str: string, finStr: string
+     * Input: ("Test is a string", "is")
+     * Output: True
+     */
     NgxStrHelper.prototype.contains = function (str, findStr) {
         return str.indexOf(findStr) >= 0;
     };
@@ -222,7 +233,166 @@ var NgxStrHelper = (function () {
         step = ~~step;
         return step > 0 ? str.match(new RegExp('.{1,' + step + '}', 'g')) : [str];
     };
-    ;
+    /**
+     * Removes prefix from start of string.
+     * @param str : string
+     * @param prefix : string
+     * chompLeft('foobar', 'foo') ==> "bar"
+     * chompLeft('foobar', 'bar') ==> "foobar"
+     */
+    NgxStrHelper.prototype.chompLeft = function (str, prefix) {
+        if (str.indexOf(prefix) === 0) {
+            str = str.slice(prefix.length);
+            return str;
+        }
+        else {
+            return str;
+        }
+    };
+    /**
+     * Removes suffix from end of string.
+     * @param str : string
+     * @param suffix : string
+     * chompRight('foobar', 'foo') ==> "foobar"
+     * chompRight('foobar', 'bar') ==> "foo"
+     */
+    NgxStrHelper.prototype.chompRight = function (str, suffix) {
+        if (this.endsWith(str, suffix)) {
+            str = str.slice(0, str.length - suffix.length);
+            return str;
+        }
+        else {
+            return str;
+        }
+    };
+    /**
+     * Converts all adjacent whitespace characters to a single space.
+     * @param str :string
+     * Input: '  String   \t libraries are   \n\n\t fun\n!  ';
+     * Output: 'String libraries are fun !'
+     */
+    NgxStrHelper.prototype.collapseWhitespace = function (str) {
+        str = str.replace(/[\s\xa0]+/g, ' ').replace(/^\s+|\s+$/g, '');
+        return str;
+    };
+    /**
+     * Ensures string starts with prefix.
+     * @param str : string
+     * @param prefix : string
+     * ensureLeft('subdir', '/') ==> '/subdir'
+     */
+    NgxStrHelper.prototype.ensureLeft = function (str, prefix) {
+        if (str.indexOf(prefix) === 0) {
+            return str;
+        }
+        else {
+            return prefix + str;
+        }
+    };
+    /**
+     * Ensures string ends with suffix.
+     * @param str : string
+     * @param suffix : string
+     * ensureRight('dir', '/') ==> 'dir'
+     */
+    NgxStrHelper.prototype.ensureRight = function (str, suffix) {
+        if (str.indexOf(suffix) === 0) {
+            return str;
+        }
+        else {
+            return str + suffix;
+        }
+    };
+    /**
+     * Return true if the string contains only letters.
+     * @param str string
+     * isAlpha("afaf") ==> true
+     * isAlpha("fdafaf3") ==> false
+     */
+    NgxStrHelper.prototype.isAlpha = function (str) {
+        return !/[^a-z\xDF-\xFF]|^$/.test(str.toLowerCase());
+    };
+    /**
+     * Return true if the string contains only letters and numbers
+     * @param str string
+     * isAlphaNumeric("afaf35353afaf") ==> true
+     * isAlphaNumeric("FFFF99fff") ==> true
+     * isAlphaNumeric("aaff..") ==> false
+     */
+    NgxStrHelper.prototype.isAlphaNumeric = function (str) {
+        return !/[^0-9a-z\xDF-\xFF]/.test(str.toLowerCase());
+    };
+    /**
+     * Return true if the character or string is lowercase
+     * @param str : string
+     * isLower("a") ==> true
+     * isLower("z") ==> true
+     * isLower("B") ==> false
+     * isLower("hithuyet") ==> true
+     * isLower("hi thuyet") ==> false
+     */
+    NgxStrHelper.prototype.isLower = function (str) {
+        return this.isAlpha(str) && str.toLowerCase() === str;
+    };
+    /**
+     * Return true if the string only contains digits
+     * @param str : string
+     * isNumeric("3") ==> true
+     * isNumeric("000992424242") ==> true
+     * isNumeric("34.22") ==> false
+     * isNumeric("-22.33") ==> false
+     * isNumeric("NaN") ==> false
+     * isNumeric("THUYET") ==> false
+     */
+    NgxStrHelper.prototype.isNumeric = function (str) {
+        return !/[^0-9]/.test(str);
+    };
+    /**
+     * Returns true if the character or string is uppercase
+     * @param str : string
+     * isUpper("HelLO") ==> true
+     * isUpper("HI THUYET") ==> false
+     * isUpper("HITHUYET") ==> true
+     * isUpper("B") ==> true
+     * isUpper("a") ==> false
+     * isUpper("z") ==> false
+     */
+    NgxStrHelper.prototype.isUpper = function (str) {
+        return this.isAlpha(str) && str.toUpperCase() === str;
+    };
+    /**
+     * Return the substring denoted by n positive left-most characters.
+     * @param str : string
+     * @param num : number
+     * left("My name Thuyet", 2) ==> "My"
+     * left("My name Thuyet", 0) ==> ""
+     */
+    NgxStrHelper.prototype.left = function (str, num) {
+        if (num >= 0) {
+            return str.substr(0, num);
+        }
+    };
+    /**
+     * Return the substring denoted by n positive right-most characters.
+     * @param str : string
+     * @param num : number
+     * right("My name THUYET", 2) ==> "ET"
+     * right("My name THUYET", 0) ==> ""
+     */
+    NgxStrHelper.prototype.right = function (str, num) {
+        if (num >= 0) {
+            return str.substr(str.length - num, num);
+        }
+    };
+    /**
+     * Returns a string repeated n times.
+     * @param str : string
+     * @param num : number
+     * times("*", 3) ==> "***"
+     */
+    NgxStrHelper.prototype.times = function (str, num) {
+        return new Array(num + 1).join(str);
+    };
     return NgxStrHelper;
 }());
 export { NgxStrHelper };

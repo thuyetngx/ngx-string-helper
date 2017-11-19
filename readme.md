@@ -70,7 +70,7 @@ $ npm i ngx-string-helper --save
 ```javascript
         var sampleString = "Input is a string";
         var str = ngxStrHelper.truncate(sampleString, 9);
-        // => Outputs: Input is a string ...
+        // => Outputs: Input is a ...
 ```
 #### NgxStrHelper.toSlug();
 ```javascript
@@ -292,5 +292,123 @@ It can be customized by giving arrays of truth and falsy value matcher as parame
 ```javascript
         ngxStrHelper.chop("whitespace", 3);
         // => Outputs: ["whi", "tes", "pac", "e"]
+```
+#### NgxStrHelper.chompLeft();
+Removes prefix from start of string.
+```javascript
+        ngxStrHelper.chompLeft('foobar', 'foo')
+        // => Outputs: "bar"
+        ngxStrHelper.chompLeft('foobar', 'bar')
+        // => Outputs: "foobar"
+```
+#### NgxStrHelper.chompRight();
+Removes suffix from end of string.
+```javascript
+        ngxStrHelper.chompRight('foobar', 'foo')
+        // => Outputs: "foobar"
+        ngxStrHelper.chompRight('foobar', 'bar')
+        // => Outputs: "foo"
+```
+#### NgxStrHelper.collapseWhitespace();
+Converts all adjacent whitespace characters to a single space.
+```javascript
+        ngxStrHelper.collapseWhitespace("  String   \t libraries are   \n\n\t fun\n!  ");
+        // => Outputs: "String libraries are fun !"
+```
+#### NgxStrHelper.ensureLeft();
+Ensures string starts with prefix.
+```javascript
+        ngxStrHelper.ensureLeft("subdir", "/");
+        // => Outputs: "/subdir"
+```
+#### NgxStrHelper.ensureRight();
+Ensures string ends with suffix.
+```javascript
+        ngxStrHelper.ensureRight("dir", "/");
+        // => Outputs: "dir/"
+```
+#### NgxStrHelper.isAlpha();
+Return true if the string contains only letters.
+```javascript
+        ngxStrHelper.isAlpha("afaf");
+        // => Outputs: true
+        ngxStrHelper.isAlpha("fdafaf3");
+        // => Outputs: false
+```
+#### NgxStrHelper.isAlphaNumeric();
+Return true if the string contains only letters and numbers
+```javascript
+        ngxStrHelper.isAlphaNumeric("afaf35353afaf");
+        // => Outputs: true
+        ngxStrHelper.isAlphaNumeric("FFFF99fff");
+        // => Outputs: true
+        ngxStrHelper.isAlphaNumeric("aaff..");
+        // => Outputs: false
+```
+#### NgxStrHelper.isLower();
+Return true if the character or string is lowercase
+```javascript
+        ngxStrHelper.isLower("a");
+        // => Outputs: true
+        ngxStrHelper.isLower("z");
+        // => Outputs: true
+        ngxStrHelper.isLower("B");
+        // => Outputs: false
+        ngxStrHelper.isLower("hithuyet");
+        // => Outputs: true
+        ngxStrHelper.isLower("hi thuyet");
+        // => Outputs: false
+```
+#### NgxStrHelper.isNumeric();
+Return true if the string only contains digits
+```javascript
+        ngxStrHelper.isNumeric("3");
+        // => Outputs: true
+        ngxStrHelper.isNumeric("000992424242");
+        // => Outputs: true
+        ngxStrHelper.isNumeric("B");
+        // => Outputs: false
+        ngxStrHelper.isNumeric("34.22");
+        // => Outputs: false
+        ngxStrHelper.isNumeric("NaN");
+        // => Outputs: false
+        ngxStrHelper.isNumeric("THUYET");
+        // => Outputs: false
+```
+#### NgxStrHelper.isUpper();
+Returns true if the character or string is uppercase
+```javascript
+        ngxStrHelper.isUpper("A");
+        // => Outputs: true
+        ngxStrHelper.isUpper("Z");
+        // => Outputs: true
+        ngxStrHelper.isUpper("b");
+        // => Outputs: false
+        ngxStrHelper.isUpper("HITHUYET");
+        // => Outputs: true
+        ngxStrHelper.isUpper("hi thuyet");
+        // => Outputs: false
+```
+#### NgxStrHelper.left();
+Return the substring denoted by n positive left-most characters.
+```javascript
+        ngxStrHelper.left("My name Thuyet", 2)
+        // => Outputs: "My"
+        ngxStrHelper.left("My name Thuyet", 0)
+        // => Outputs: ""
+```
+#### NgxStrHelper.right();
+Return the substring denoted by n positive right-most characters.
+```javascript
+        ngxStrHelper.right("My name Thuyet", 2)
+        // => Outputs: "et"
+        ngxStrHelper.right("My name Thuyet", 0)
+        // => Outputs: ""
+```
+#### NgxStrHelper.times();
+Returns a string repeated n times.
+```javascript
+        ngxStrHelper.times("*", 2)
+        // => Outputs: "**"
 ```
 #### Thanks and enjoy!
