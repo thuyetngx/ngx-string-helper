@@ -1,6 +1,6 @@
 {
     "name": "ngx-string-helper",
-    "version": "2.0.15",
+    "version": "2.0.16",
     "description": "Ngx lacks complete string manipulation operations. This is an attempt to fill that gap.",
     "main": "index.js",
     "scripts": {

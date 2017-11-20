@@ -15,6 +15,11 @@ var NgxStrHelper = (function () {
             '\'': '#39'
         };
     }
+    /**
+     * @param input any
+     * Input: "Input is a string" ==> false
+     * Input: "" ==> true
+     */
     NgxStrHelper.prototype.isNullOrEmpty = function (input) {
         return (input === undefined || input === null || input === "");
     };
@@ -35,40 +40,85 @@ var NgxStrHelper = (function () {
     NgxStrHelper.prototype.contains = function (str, findStr) {
         return str.indexOf(findStr) >= 0;
     };
+    /**
+     * @param str : string
+     * Input: "Input is a string" ==> "input-is-a-string"
+     */
     NgxStrHelper.prototype.toSlug = function (str) {
         return str
             .toLowerCase()
             .replace(/ /g, '-')
             .replace(/[^\w-]+/g, '');
     };
+    /**
+     * @param str string
+     * Input: "Foo Bar" ==> "foo Bar"
+     */
     NgxStrHelper.prototype.decapitalize = function (str) {
         return str.charAt(0).toLowerCase() + str.slice(1);
     };
+    /**
+     *
+     * @param str string
+     * @param lowercaseRest : boolean, (optional)
+     * Input: "foo Bar" ==> "Foo Bar"
+     * Input: "FOO Bar" ==> "Foo Bar"
+     */
     NgxStrHelper.prototype.capitalize = function (str, lowercaseRest) {
         var remainingChars = !lowercaseRest ? str.slice(1) : str.slice(1).toLowerCase();
         return str.charAt(0).toUpperCase() + remainingChars;
     };
+    /**
+     * @param str string
+     * Input: " foo    bar   " ==> "foo bar"
+     */
     NgxStrHelper.prototype.clean = function (str) {
         return str.trim().replace(/\s\s+/g, ' ');
     };
+    /**
+     * @param str string
+     * Input: "Hello" ==> ["H", "e", "l", "l", "o"]
+     */
     NgxStrHelper.prototype.chars = function (str) {
         return str.split('');
     };
+    /**
+     * Returns a copy of the string in which all the case-based characters have had their case swapped.
+     * @param str string
+     * Input: "hELLO" ==> "Hello"
+     */
     NgxStrHelper.prototype.swapCase = function (str) {
         return str.replace(/\S/g, function (c) {
             return c === c.toUpperCase() ? c.toLowerCase() : c.toUpperCase();
         });
     };
+    /**
+     * Tests if string contains a substring.
+     * @param str : string
+     * @param needle : string
+     * Input: include("foobar", "ob") ==> true
+     */
     NgxStrHelper.prototype.include = function (str, needle) {
         if (needle === '')
             return true;
         return str.indexOf(needle) !== -1;
     };
+    /**
+     * Returns number of occurrences of substring in string.
+     * @param str : string
+     * @param substr : string
+     * Input: count("Hello world", "l") ==> 3
+     */
     NgxStrHelper.prototype.count = function (str, substr) {
         if (str.length === 0 || substr.length === 0)
             return 0;
         return str.split(substr).length - 1;
     };
+    /**
+     * Converts HTML special characters to their entity equivalents. This function supports cent, yen, euro, pound, lt, gt, copy, reg, quote, amp, apos.
+     * @param str : string
+     * Input: escapeHTML("<div>Blah blah blah</div>") ==> "&lt;div&gt;Blah blah blah&lt;/div&gt;"
+     */
     NgxStrHelper.prototype.escapeHTML = function (str) {
         var regexString = '[';
         for (var key in this.escapeChars) {
@@ -80,30 +130,119 @@ var NgxStrHelper = (function () {
             return '&' + this.escapeChars[m] + ';';
         });
     };
+    /**
+     * Converts entity characters to HTML equivalents. This function supports cent, yen, euro, pound, lt, gt, copy, reg, quote, amp, apos, nbsp.
+     * @param str : string
+     * Input: unescapeHTML("&lt;div&gt;Blah&nbsp;blah blah&lt;/div&gt;") ==> "<div>Blah blah blah</div>"
+     */
+    NgxStrHelper.prototype.unescapeHTML = function (str) {
+        var htmlEntities = {
+            nbsp: ' ',
+            cent: '¢',
+            pound: '£',
+            yen: '¥',
+            euro: '€',
+            copy: '©',
+            reg: '®',
+            lt: '<',
+            gt: '>',
+            quot: '"',
+            amp: '&',
+            apos: '\''
+        };
+        return str.replace(/\&([^;]+);/g, function (entity, entityCode) {
+            var match;
+            if (entityCode in htmlEntities) {
+                return htmlEntities[entityCode];
+                /*eslint no-cond-assign: 0*/
+            }
+            else if (match = entityCode.match(/^#x([\da-fA-F]+)$/)) {
+                return String.fromCharCode(parseInt(match[1], 16));
+                /*eslint no-cond-assign: 0*/
+            }
+            else if (match = entityCode.match(/^#(\d+)$/)) {
+                return String.fromCharCode(~~match[1]);
+            }
+            else {
+                return entity;
+            }
+        });
+    };
+    ;
+    /**
+     * @param str : string
+     * @param i : number // Index
+     * @param substr : string
+     * Input: insert("Hellworld", 4, "o ") ==> "Hello world"
+     */
     NgxStrHelper.prototype.insert = function (str, i, substr) {
         return this.splice(str, i, 0, substr);
     };
+    /**
+     * Like an array splice.
+     * @param str : string
+     * @param i : number // Index
+     * @param howmany : number // Number character
+     * @param substr : string // String replace
+     * Input: splice("https://github.com/test/ngx-string-helper", 19, 4, "thuyetngx");
+     * Outputs: "https://github.com/thuyetngx/ngx-string-helper"
+     */
     NgxStrHelper.prototype.splice = function (str, i, howmany, substr) {
         var arr = this.chars(str);
         arr.splice(~~i, ~~howmany, substr);
         return arr.join('');
     };
+    /**
+     * @param str : string
+     * @param find : string
+     * @param replace : string
+     * @param ignorecase : boolean
+     * Input: replaceAll("foo", "o", "a"); ==> "faa"
+     */
     NgxStrHelper.prototype.replaceAll = function (str, find, replace, ignorecase) {
         var flags = (ignorecase === true) ? 'gi' : 'g';
         var reg = new RegExp(find, flags);
         return str.replace(reg, replace);
     };
+    /**
+     * @param str : string
+     * isBlank(""); // => true
+     * isBlank("\n"); // => true
+     * isBlank(" "); // => true
+     * isBlank("a"); // => false
+     */
     NgxStrHelper.prototype.isBlank = function (str) {
         return (/^\s*$/).test(str);
     };
+    /**
+     * Return reversed string
+     * @param str : string
+     * Input: .reverse("foobar"); ==> "raboof"
+     */
     NgxStrHelper.prototype.reverse = function (str) {
         return this.chars(str).reverse().join('');
     };
+    /**
+     * This method checks whether the string begins with starts at position (default: 0)
+     * @param str : string
+     * @param starts : string
+     * @param position : number
+     * Input: startsWith("image.gif", "image"); ==> true
+     * Input: startsWith(".vimrc", "vim", 1); ==> true
+     */
     NgxStrHelper.prototype.startsWith = function (str, starts, position) {
         starts = '' + starts;
         position = position == null ? 0 : Math.min(this.toPositive(position), str.length);
         return str.lastIndexOf(starts, position) === position;
     };
+    /**
+     * This method checks whether the string ends with ends at position (default: string.length).
+     * @param str : string
+     * @param ends : string
+     * @param position : number
+     * Input: endsWith("image.gif", "gif"); ==> true
+     * Input: endsWith("image.old.gif", "old", 9); ==> true
+     */
     NgxStrHelper.prototype.endsWith = function (str, ends, position) {
         ends = '' + ends;
         if (typeof position == 'undefined') {
@@ -114,17 +253,42 @@ var NgxStrHelper = (function () {
         }
         return position >= 0 && str.indexOf(ends, position) === position;
     };
+    /**
+     * Returns the predecessor to string
+     * @param str : string
+     * pred("b") ==> "a"
+     * pred("B") ==> "A"
+     */
     NgxStrHelper.prototype.pred = function (str) {
         return this.adjacent(str, -1);
     };
+    /**
+     * Returns the successor to string.
+     * @param str : string
+     * pred("a") ==> "b"
+     * pred("A") ==> "B"
+     */
     NgxStrHelper.prototype.succ = function (str) {
         return this.adjacent(str, 1);
     };
+    /**
+     * @param str : string
+     * titleize("my name is thuyet") ==> "My Name Is Thuyet"
+     */
     NgxStrHelper.prototype.titleize = function (str) {
         return str.toLowerCase().replace(/(?:^|\s|-)\S/g, function (c) {
             return c.toUpperCase();
         });
     };
+    /**
+     * Converts underscored or dasherized string to a camelized one. Begins with a lower case letter unless it starts with an underscore, dash or an upper case letter.
+     * @param str : string
+     * @param decapitalize : string
+     * camelize("moz-transform") ==> "mozTransform"
+     * camelize("-moz-transform") ==> "MozTransform"
+     * camelize("_moz_transform") ==> "MozTransform"
+     * camelize("-moz-transform", true) ==> "MozTransform"
+     */
     NgxStrHelper.prototype.camelize = function (str, decapitalize) {
         str = str.trim().replace(/[-_\s]+(.)?/g, function (match, c) {
             return c ? c.toUpperCase() : '';
@@ -136,15 +300,35 @@ var NgxStrHelper = (function () {
             return str;
         }
     };
+    /**
+     * Converts string to camelized class name. First letter is always upper case
+     * @param str : string
+     * classify("thuyet_le_van") ==> "ThuyetLeVan"
+     */
     NgxStrHelper.prototype.classify = function (str) {
         return this.capitalize(this.camelize(str.replace(/[\W_]/g, ' '), false).replace(/\s/g, ''), false);
     };
+    /**
+     * Converts a camelized or dasherized string into an underscored one
+     * @param str : string
+     * underscored("ThuyetLeVan") ==> "thuyet_le_van"
+     */
     NgxStrHelper.prototype.underscored = function (str) {
         return str.replace(/([a-z\d])([A-Z]+)/g, '$1_$2').replace(/[-\s]+/g, '_').toLowerCase();
     };
+    /**
+     * Converts a underscored or camelized string into an dasherized one
+     * @param str : string
+     * underscored("ThuyetLeVan") ==> "thuyet-le-van"
+     */
     NgxStrHelper.prototype.dasherize = function (str) {
         return str.replace(/([A-Z])/g, '-$1').replace(/[-_\s]+/g, '-').toLowerCase();
     };
+    /**
+     * Converts an underscored, camelized, or dasherized string into a humanized one. Also removes beginning and ending whitespace, and removes the postfix '_id'.
+     * @param str : string
+     * humanize("  capitalize dash-CamelCase_underscore trim  ") ==> "Capitalize dash camel case underscore trim"
+     */
     NgxStrHelper.prototype.humanize = function (str) {
         return this.capitalize(this.underscored(str).replace(/_id$/, '').replace(/_/g, ' ').trim(), false);
     };
@@ -157,15 +341,37 @@ var NgxStrHelper = (function () {
         }
         return str.slice(0, -1) + String.fromCharCode(str.charCodeAt(str.length - 1) + direction);
     };
+    /**
+     * Parse string to number. Returns NaN if string can't be parsed to number.
+     * @param num : string
+     * @param precision : number
+     * toNumber("2.556") ==> 3
+     * toNumber("2.556", 1) ==> 2.6
+     * toNumber("999.999", -1) ==> 990
+     */
     NgxStrHelper.prototype.toNumber = function (num, precision) {
         if (num == null)
             return 0;
         var factor = Math.pow(10, isFinite(precision) ? precision : 0);
         return Math.round(num * factor) / factor;
     };
+    /**
+     * Removes all html tags from string.
+     * @param str : string
+     * stripTags("a <a href=\"#\">link</a>") ==> "a link"
+     * stripTags("a <a href=\"#\">link</a><script>alert(\"hello world!\")</script>") ==> "a linkalert("hello world!")"
+     */
     NgxStrHelper.prototype.stripTags = function (str) {
         return str.replace(/<\/?[^>]+>/g, '');
     };
+    /**
+     * Repeats a string count times.
+     * @param str : string
+     * @param qty : number
+     * @param separator : string
+     * repeat("HEY", 3) ==> "HEYHEYHEY"
+     * repeat("HEY", 3, "HI") ==> "HEYHEYHEYHI"
+     */
     NgxStrHelper.prototype.repeat = function (str, qty, separator) {
         qty = ~~qty;
         // using faster implementation if separator is not needed;
@@ -187,12 +393,30 @@ var NgxStrHelper = (function () {
         }
         return result;
     };
+    /**
+     * Surround a string with another string.
+     * @param str : string
+     * @param wrapper : string
+     * surround("HEY", "NAME") ==> "NAMEHEYNAME"
+     */
     NgxStrHelper.prototype.surround = function (str, wrapper) {
         return [wrapper, str, wrapper].join('');
     };
+    /**
+     * Quotes a string. quoteChar defaults to ".
+     * @param str : string
+     * @param quoteChar : string
+     * quote("DEMO", '"') ==> '"DEMO"'
+     */
     NgxStrHelper.prototype.quote = function (str, quoteChar) {
         return this.surround(str, quoteChar || '"');
     };
+    /**
+     * Unquotes a string. quoteChar defaults to ".
+     * @param str : string
+     * @param quoteChar : string
+     * unquote('"DEMO"') ==> "DEMO"
+     */
     NgxStrHelper.prototype.unquote = function (str, quoteChar) {
         quoteChar = quoteChar || '"';
         if (str[0] === quoteChar && str[str.length - 1] === quoteChar)
@@ -213,6 +437,15 @@ var NgxStrHelper = (function () {
                 return true;
         }
     };
+    /**
+     * Turn strings that can be commonly considered as booleas to real booleans. Such as "true", "false", "1" and "0". This function is case insensitive.
+     * @param str : string
+     * @param trueValues : []
+     * @param falseValues : []
+     * toBoolean("true") ==> true
+     * toBoolean("FALSE") ==> false
+     * toBoolean("random") ==> undefined
+     */
     NgxStrHelper.prototype.toBoolean = function (str, trueValues, falseValues) {
         if (trueValues === void 0) { trueValues = []; }
         if (falseValues === void 0) { falseValues = []; }
@@ -226,6 +459,11 @@ var NgxStrHelper = (function () {
         if (this.boolMatch(str, falseValues || ['false', '0']))
             return false;
     };
+    /**
+     * @param str : string
+     * @param step : number
+     * chop("whitespace", 3) ==> ["whi", "tes", "pac", "e"]
+     */
     NgxStrHelper.prototype.chop = function (str, step) {
         if (str == null)
             return [];

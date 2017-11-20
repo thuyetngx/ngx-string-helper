@@ -50,7 +50,7 @@ $ npm i ngx-string-helper --save
 ```javascript
         let sampleString = "Input is a string";
         let isNullOrEmpty = ngxStrHelper.isNullOrEmpty(sampleString);
-        // => Outputs: True
+        // => Outputs: False
 ```
 #### NgxStrHelper.isBlank();
 ```javascript
@@ -138,6 +138,13 @@ Converts entity characters to HTML equivalents. This function supports cent, yen
 ```javascript
         ngxStrHelper.insert("Hellworld", 4, "o ");
         // => Outputs: "Hello world"
+```
+```
+#### NgxStrHelper.splice();
+Like an array splice.
+```javascript
+        ngxStrHelper.splice("https://github.com/test/ngx-string-helper", 19, 4, "thuyetngx");
+        // => Outputs: "https://github.com/thuyetngx/ngx-string-helper"
 ```
 #### NgxStrHelper.replaceAll();
 ```javascript
